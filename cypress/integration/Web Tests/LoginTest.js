@@ -1,0 +1,43 @@
+describe('Test accessing the login page.', () => {
+    it('Switches to Register Tab.', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.contains('Register').click()
+        cy.url().should('include', '/login')
+    })
+    it('Switches to Login Tab.', () => {
+        cy.contains('Login').click()
+        cy.url().should('include', '/login')
+    })
+    it('Succesful Registration', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.contains('Register').click()
+        cy.get('#mat-input-2').type('Danny123')
+        cy.get('#mat-input-3').type('Password456')
+        cy.get('#mat-input-4').type('Password456')
+        cy.contains('Register Now').click()
+        cy.url().should('include', '/profile')
+    })
+    it('Succesful Login', () => {
+        cy.visit('http://localhost:4200/login')
+        cy.contains('Login').click()
+        cy.get('#mat-input-0').type('Danny123')
+        cy.get('#mat-input-1').type('Password456')
+        cy.contains('Sign In').click()
+        cy.url().should('include', '/home')
+    })
+    it('Failed Login', () => {
+        cy.contains('Login').click()
+        cy.get('#mat-input-0').type('Danny1234')
+        cy.get('#mat-input-1').type('Password4567')
+        cy.contains('Sign In').click()
+        cy.url().should('include', '/login')
+    })
+    it('Failed Registration', () => {
+        cy.contains('Register').click()
+        cy.get('#mat-input-2').type('Danny123')
+        cy.get('#mat-input-3').type('Password456')
+        cy.get('#mat-input-4').type('Password456')
+        cy.contains('Register Now').click()
+        cy.url().should('include', '/login')
+    })
+  })
